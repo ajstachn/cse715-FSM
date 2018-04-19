@@ -2,21 +2,25 @@ package finite_state_machine;
 
 public class IntegerValue extends PrimitiveValue {
 	private int n;
-	public IntegerValue(int k) {
-		n=k;
+	public IntegerValue(int n) {
+		this.n=n;
 	}
-	public IntegerValue makeValue(String str) {
-		return new IntegerValue(Integer.parseInt(str));
+	
+	public static IntegerValue makeIntegerValue(PrimitiveValue val) throws UnsupportedOperationException {
+		if (val instanceof IntegerValue) {
+			return (IntegerValue)val;
+		} else if (val instanceof StringValue) {
+			StringValue str=(StringValue)val;
+			return new IntegerValue(Integer.parseInt(str.getVal()));
+		} else {
+			throw new UnsupportedOperationException("invalid type");
+		}
 	}
+	
 	public int getVal() {
 		return n;
 	}
-	public void setVal(int k) {
-		n=k;
-	}
-	public boolean getBool() {
-		return false;
-	}
+	
 	public String toString() {
 		return Integer.toString(n);
 	}

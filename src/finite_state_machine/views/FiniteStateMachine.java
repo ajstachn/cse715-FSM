@@ -518,7 +518,6 @@ public class FiniteStateMachine extends ViewPart {
 		sd.attributesMap = new TreeMap<String,Integer>(); // Set of attributes with count
 		sd.fwevents = new ArrayList<FWEvent>(); // All field write events
 		sd.keys = new ArrayList<KeyAttribute>(); // Reset key attributes
-		sd.keymap = new HashMap<String,Integer>();
 		sd.keycolors = new HashMap<String,String>();
 		sd.transitions = new LinkedHashMap<String,Integer>(); // Reset transitions
 		sd.allTransitions = new ArrayList<String>();
@@ -747,7 +746,6 @@ public class FiniteStateMachine extends ViewPart {
 		ArrayList<State> paStates = new ArrayList<State>(); // Sequence of predicated states
 		private LinkedHashMap<String,Integer> transitions; // Transitions
 		private ArrayList<String> allTransitions;
-		private Map<String,Integer> keymap;
 		private Map<String,String> keycolors;
 		
 		public void readEvents() {
@@ -917,17 +915,22 @@ public class FiniteStateMachine extends ViewPart {
 		public void abstraction() {
 			
 			paStates = new ArrayList<State>();
-			
+
+			Map<String,Integer> varLookupMap = new HashMap<String,Integer>();
 			for (int i=0;i<keys.size();++i) {
-				keymap.put(keys.get(i).toString(),i);
+				varLookupMap.put(keys.get(i).toString(),i);
 			}
+			
 			for (int s=0; s<states.size(); s++) {
 				State st=states.get(s);
 				Context cxt = new Context() {
 					public PrimitiveValue getvar(Variable name) {
-						return name.getVal(st.get(keymap.get(name.getName())));
+						int ix=varLookupMap.get(name.getName());
+						return st.get(ix);
 					}
 				};
+				Expression expr = new IsEqual(new ConstantExpr(new IntegerValue(7)),new AdditionOp(new Variable("foo"),new ConstantExpr(new IntegerValue(3))));
+				System.out.println(expr.evaluate(cxt));
 				
 				State paState = new State();
 				System.out.println(keys.get(0));

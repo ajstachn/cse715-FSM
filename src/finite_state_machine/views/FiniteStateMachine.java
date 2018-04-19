@@ -20,8 +20,14 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.part.*;
 
+import finite_state_machine.AdditionOp;
+import finite_state_machine.ConstantExpr;
 import finite_state_machine.Context;
+import finite_state_machine.Expression;
+import finite_state_machine.IntegerValue;
+import finite_state_machine.IsEqual;
 import finite_state_machine.PrimitiveValue;
+import finite_state_machine.StringValue;
 import finite_state_machine.Variable;
 
 import org.eclipse.jface.viewers.*;
@@ -926,11 +932,16 @@ public class FiniteStateMachine extends ViewPart {
 				Context cxt = new Context() {
 					public PrimitiveValue getvar(Variable name) {
 						int ix=varLookupMap.get(name.getName());
-						return st.get(ix);
+						return new StringValue(st.get(ix));
 					}
 				};
-				Expression expr = new IsEqual(new ConstantExpr(new IntegerValue(7)),new AdditionOp(new Variable("foo"),new ConstantExpr(new IntegerValue(3))));
-				System.out.println(expr.evaluate(cxt));
+				Expression expr = new IsEqual(new Variable("state.State:1->state"),new ConstantExpr(new StringValue("H")));
+				try {
+					System.out.println(expr.evaluate(cxt));
+				} catch (Exception e) {
+					
+					System.out.println("error:"+e.toString());
+				}
 				
 				State paState = new State();
 				System.out.println(keys.get(0));

@@ -7,12 +7,12 @@ public class AdditionOp extends Expression {
 	this.rhs=rhs;
 	this.lhs=lhs;
     }
-    public int getRhs(Map<String,PrimitiveValue> cxt) {
-	IntegerValue v=(IntegerValue)evaluate(rhs,cxt);
-	return v.getVal();
+    public int getRhs(Context cxt) {
+    	IntegerValue v=(IntegerValue)Expression.evaluate(rhs,cxt);
+    	return v.getVal();
     }
-    public int getLhs(Map<String,PrimitiveValue> cxt) {
-	IntegerValue v=(IntegerValue)evaluate(lhs,cxt);
-	return v.getVal();
+	public int getLhs(Context cxt) {
+		IntegerValue v=(IntegerValue)Expression.evaluate(lhs,cxt);
+		return v.getVal();
     }
 }

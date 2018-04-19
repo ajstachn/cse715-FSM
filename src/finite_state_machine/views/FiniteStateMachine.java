@@ -20,6 +20,10 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.part.*;
 
+import finite_state_machine.Context;
+import finite_state_machine.PrimitiveValue;
+import finite_state_machine.Variable;
+
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageLoader;
@@ -42,6 +46,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.swt.events.DisposeListener;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.LinkedHashSet;
@@ -513,6 +518,8 @@ public class FiniteStateMachine extends ViewPart {
 		sd.attributesMap = new TreeMap<String,Integer>(); // Set of attributes with count
 		sd.fwevents = new ArrayList<FWEvent>(); // All field write events
 		sd.keys = new ArrayList<KeyAttribute>(); // Reset key attributes
+		sd.keymap = new HashMap<String,Integer>();
+		sd.keycolors = new HashMap<String,String>();
 		sd.transitions = new LinkedHashMap<String,Integer>(); // Reset transitions
 		sd.allTransitions = new ArrayList<String>();
 
@@ -740,6 +747,8 @@ public class FiniteStateMachine extends ViewPart {
 		ArrayList<State> paStates = new ArrayList<State>(); // Sequence of predicated states
 		private LinkedHashMap<String,Integer> transitions; // Transitions
 		private ArrayList<String> allTransitions;
+		private Map<String,Integer> keymap;
+		private Map<String,String> keycolors;
 		
 		public void readEvents() {
 
@@ -908,8 +917,21 @@ public class FiniteStateMachine extends ViewPart {
 		public void abstraction() {
 			
 			paStates = new ArrayList<State>();
+			
+			for (int i=0;i<keys.size();++i) {
+				keymap.put(keys.get(i).toString(),i);
+			}
 			for (int s=0; s<states.size(); s++) {
+				State st=states.get(s);
+				Context cxt = new Context() {
+					public PrimitiveValue getvar(Variable name) {
+						return name.getVal(st.get(keymap.get(name.getName())));
+					}
+				};
+				
 				State paState = new State();
+				System.out.println(keys.get(0));
+				System.out.println(states.get(s)+Integer.toString(s));
 				paState.copy(states.get(s));
 				paStates.add(paState);
 			}

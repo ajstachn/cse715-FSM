@@ -27,4 +27,8 @@ public class IsEqual extends Expression {
 			throw new UnsupportedOperationException("invalid types");
 		}
 	}
+
+	public String toString() {
+		return "("+this.lhs+"=="+this.rhs+")";
+	}
 }

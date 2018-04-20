@@ -13,4 +13,8 @@ public class AdditionOp extends Expression {
 		IntegerValue b=IntegerValue.makeIntegerValue(rhs.evaluate(cxt));
 		return new IntegerValue(a.getVal()+b.getVal());
 	}
+
+	public String toString() {
+		return "("+this.lhs+"+"+this.rhs+")";
+	}
 }

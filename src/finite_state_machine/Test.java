@@ -14,7 +14,8 @@ public class Test {
 					return varMap.get(name.getName());
 				}
 			};
-		
+
+		System.out.println(expr);
 		System.out.println(expr.evaluate(cxt));
 	}
 }

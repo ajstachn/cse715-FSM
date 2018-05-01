@@ -4,7 +4,8 @@
 package edu.buffalo.cse715.parsing.model;
 
 /**
- * @author shash
+ * @author Shashank Raghunath
+ * @email sraghuna@buffalo.edu
  *
  */
 public class BinaryTree<T> implements Tree<T> {

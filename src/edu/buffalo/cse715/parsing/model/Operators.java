@@ -1,5 +1,9 @@
 package edu.buffalo.cse715.parsing.model;
-
+/**
+ * @author Shashank Raghunath
+ * @email sraghuna@buffalo.edu
+ *
+ */
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

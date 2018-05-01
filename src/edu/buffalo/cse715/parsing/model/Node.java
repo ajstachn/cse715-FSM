@@ -1,5 +1,9 @@
 package edu.buffalo.cse715.parsing.model;
-
+/**
+ * @author Shashank Raghunath
+ * @email sraghuna@buffalo.edu
+ *
+ */
 public class Node<T> implements Comparable<T>{
 
 	private T data;

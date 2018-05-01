@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class Operators {
 
+	// TODO - Set precedence value
 	public static final Map<String, Integer> OPERATOR_PRECEDENCE;
 	static {
 		Map<String, Integer> map = new HashMap<>();

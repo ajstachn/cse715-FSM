@@ -1,8 +1,9 @@
 package edu.buffalo.cse715.parsing.expression.arithmetic;
 
 import edu.buffalo.cse715.parsing.expression.Expression;
+import edu.buffalo.cse715.parsing.expression.IBinaryExpression;
 
-public abstract class ArithmeticExpression extends Expression {
+public abstract class ArithmeticExpression extends Expression implements IBinaryExpression {
 
 	private Expression expressionA;
 	private Expression expressionB;

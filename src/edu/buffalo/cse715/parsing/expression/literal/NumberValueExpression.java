@@ -3,14 +3,12 @@
  */
 package edu.buffalo.cse715.parsing.expression.literal;
 
-import edu.buffalo.cse715.parsing.expression.Expression;
-
 /**
  * @author Shashank Raghunath
  * @email sraghuna@buffalo.edu
  *
  */
-public class NumberValueExpression extends Expression implements Literal<Number> {
+public class NumberValueExpression extends ValueExpression implements Literal<Number> {
 
 	private Number literal;
 

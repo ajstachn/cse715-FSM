@@ -1,13 +1,14 @@
 package edu.buffalo.cse715.parsing.expression.relational;
 
 import edu.buffalo.cse715.parsing.expression.Expression;
+import edu.buffalo.cse715.parsing.expression.IBinaryExpression;
 
 /**
  * @author Shashank Raghunath
  * @email sraghuna@buffalo.edu
  *
  */
-public abstract class RelationalExpression extends Expression {
+public abstract class RelationalExpression extends Expression implements IBinaryExpression{
 
 	private Expression expressionA;
 	private Expression expressionB;

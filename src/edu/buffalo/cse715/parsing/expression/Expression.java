@@ -8,6 +8,6 @@ package edu.buffalo.cse715.parsing.expression;
  * @email sraghuna@buffalo.edu
  *
  */
-public abstract class Expression {
+public abstract class Expression implements IExpression{
 
 }

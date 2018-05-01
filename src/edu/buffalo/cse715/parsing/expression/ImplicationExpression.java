@@ -5,7 +5,7 @@ package edu.buffalo.cse715.parsing.expression;
  * @email sraghuna@buffalo.edu
  *
  */
-public class ImplicationExpression extends Expression {
+public class ImplicationExpression extends Expression implements IBinaryExpression {
 
 	private Expression expressionA;
 	private Expression expressionB;

@@ -3,14 +3,12 @@
  */
 package edu.buffalo.cse715.parsing.expression.literal;
 
-import edu.buffalo.cse715.parsing.expression.Expression;
-
 /**
  * @author Shashank Raghunath
  * @email sraghuna@buffalo.edu
  *
  */
-public class StringValueExpression extends Expression implements Literal<String> {
+public class StringValueExpression extends ValueExpression implements Literal<String> {
 
 	private String literal;
 

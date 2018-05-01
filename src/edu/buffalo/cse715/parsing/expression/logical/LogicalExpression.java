@@ -7,10 +7,10 @@ import edu.buffalo.cse715.parsing.expression.Expression;
  * @email sraghuna@buffalo.edu
  *
  */
-public class LogicalExpression extends Expression {
+public abstract class LogicalExpression extends Expression {
 
-	public LogicalExpression() {
-		// TODO Auto-generated constructor stub
+	@Override
+	public Expression getExpressionA() {
+		return this;
 	}
-
 }

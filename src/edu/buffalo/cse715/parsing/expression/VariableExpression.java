@@ -27,4 +27,9 @@ public class VariableExpression extends Expression {
 		this.name = name;
 	}
 
+	@Override
+	public Expression getExpressionA() {
+		return this;
+	}
+
 }

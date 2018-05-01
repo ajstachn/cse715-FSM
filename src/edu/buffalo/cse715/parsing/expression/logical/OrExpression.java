@@ -1,5 +1,6 @@
 package edu.buffalo.cse715.parsing.expression.logical;
 
+import edu.buffalo.cse715.parsing.expression.IBinaryExpression;
 import edu.buffalo.cse715.parsing.expression.relational.RelationalExpression;
 
 /**
@@ -7,7 +8,7 @@ import edu.buffalo.cse715.parsing.expression.relational.RelationalExpression;
  * @email sraghuna@buffalo.edu
  *
  */
-public class OrExpression extends LogicalExpression {
+public class OrExpression extends LogicalExpression implements IBinaryExpression {
 
 	private RelationalExpression expressionA;
 	private RelationalExpression expressionB;

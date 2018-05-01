@@ -5,7 +5,7 @@ package edu.buffalo.cse715.parsing.expression;
  * @email sraghuna@buffalo.edu
  *
  */
-public class AssignmentExpression extends Expression {
+public class AssignmentExpression extends Expression implements IBinaryExpression {
 
 	private VariableExpression variable;
 	private Expression expression;
@@ -37,4 +37,14 @@ public class AssignmentExpression extends Expression {
 		this.expression = expression;
 	}
 
+	@Override
+	public Expression getExpressionA() {
+		return variable;
+	}
+
+	@Override
+	public Expression getExpressionB() {
+		// TODO Auto-generated method stub
+		return expression;
+	}
 }

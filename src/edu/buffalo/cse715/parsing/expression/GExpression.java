@@ -30,4 +30,8 @@ public class GExpression extends Expression {
 		this.expression = expression;
 	}
 
+	@Override
+	public Expression getExpressionA() {
+		return expression;
+	}
 }

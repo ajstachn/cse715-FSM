@@ -14,5 +14,5 @@ import edu.buffalo.cse715.parsing.expression.Expression;
  */
 public interface Parser {
 
-	public List<Expression> parse(String input);
+	public List<Expression> parse(String[] inputs);
 }

@@ -30,4 +30,9 @@ public class AExpression extends Expression {
 		this.expression = expression;
 	}
 
+	@Override
+	public Expression getExpressionA() {
+		return expression;
+	}
+
 }

@@ -20,15 +20,11 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.part.*;
 
-import finite_state_machine.AdditionOp;
-import finite_state_machine.ConstantExpr;
+import edu.buffalo.cse715.parsing.expression.AExpression;
+import edu.buffalo.cse715.parsing.expression.Expression;
+import edu.buffalo.cse715.parsing.expression.IExpression;
 import finite_state_machine.Context;
-import finite_state_machine.Expression;
-import finite_state_machine.IntegerValue;
-import finite_state_machine.IsEqual;
-import finite_state_machine.PrimitiveValue;
-import finite_state_machine.StringValue;
-import finite_state_machine.Variable;
+import finite_state_machine.Graph;
 
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Image;
@@ -99,6 +95,8 @@ public class FiniteStateMachine extends ViewPart {
 	Composite imageComposite;
 	Composite image2Composite;
 	private Image image;
+	
+	private List<IExpression> queries;
 	
 	public boolean horizontal;
 	public boolean vertical;
@@ -922,30 +920,8 @@ public class FiniteStateMachine extends ViewPart {
 			
 			paStates = new ArrayList<State>();
 
-			Map<String,Integer> varLookupMap = new HashMap<String,Integer>();
-			for (int i=0;i<keys.size();++i) {
-				varLookupMap.put(keys.get(i).toString(),i);
-			}
-			
-			for (int s=0; s<states.size(); s++) {
-				State st=states.get(s);
-				Context cxt = new Context() {
-					public PrimitiveValue getvar(Variable name) {
-						int ix=varLookupMap.get(name.getName());
-						return new StringValue(st.get(ix));
-					}
-				};
-				Expression expr = new IsEqual(new Variable("state.State:1->state"),new ConstantExpr(new StringValue("H")));
-				try {
-					System.out.println(expr.evaluate(cxt));
-				} catch (Exception e) {
-					
-					System.out.println("error:"+e.toString());
-				}
-				
+			for (int s=0; s<states.size(); s++) {			
 				State paState = new State();
-				System.out.println(keys.get(0));
-				System.out.println(states.get(s)+Integer.toString(s));
 				paState.copy(states.get(s));
 				paStates.add(paState);
 			}
@@ -1118,6 +1094,8 @@ public class FiniteStateMachine extends ViewPart {
 			transitions.put(transition, 1);
 			int s = 0;
 			String lastTransition = "";
+			Graph transitionGraph=new Graph();
+			
 			while (s<count && s<paStates.size()-1) {
 				if (paStates.get(s).hashed && paStates.get(s+1).hashed) // skip the transition
 					; // Both from and to states do not have the selection
@@ -1127,14 +1105,14 @@ public class FiniteStateMachine extends ViewPart {
 					transition = new String("\"" + paStates.get(s+1).toString() + "\""
 							+ " -[#white]-> "
 							+ "\"" + paStates.get(s+1).toString() + "\"");
-
+					transitionGraph.addEdge(paStates.get(s+1).toString(), paStates.get(s+1).toString());
 					transitions.merge(transition, 1, Integer::sum);					
 				}					
 				else {
 					transition = new String("\"" + paStates.get(s).toString() + "\""
 										+ " --> "
 										+ "\"" + paStates.get(s+1).toString() + "\"");
-
+					transitionGraph.addEdge(paStates.get(s).toString(), paStates.get(s+1).toString());
 					transitions.merge(transition, 1, Integer::sum);
 					lastTransition = new String(transition);
 				}
@@ -1147,8 +1125,14 @@ public class FiniteStateMachine extends ViewPart {
 					transitions.put(lastTransition + " #red", value);
 				}
 			}
-
 			sd.printTransitions();
+			
+			queries=new ArrayList<IExpression>();
+			Expression expr=new AExpression();
+			
+			
+			System.out.println(transitionGraph.toString());
+			
 		}
 		
 		public void printTransitions() { // Uses lambda

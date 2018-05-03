@@ -11,7 +11,7 @@ package edu.buffalo.cse715.parsing.model;
 public interface Tree<T> {
 
 	public Node<T> getRoot();
-	public void insert(Node<T> node);
+	public void insert(T data);
 	public void print();
-	public void delete(Node<T> node);
+	public void delete(T data);
 }

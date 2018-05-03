@@ -9,6 +9,8 @@ import edu.buffalo.cse715.parsing.expression.GExpression;
 import edu.buffalo.cse715.parsing.expression.IBinaryExpression;
 import edu.buffalo.cse715.parsing.model.BinaryTree;
 import edu.buffalo.cse715.parsing.model.Node;
+import edu.buffalo.cse715.parsing.model.Operators;
+import edu.buffalo.cse715.parsing.model.Tokenizer;
 
 /**
  * @author Shashank Raghunath
@@ -23,7 +25,7 @@ public class ParserImpl implements Parser {
 	public List<Expression> parse(String[] inputs) {
 		List<Expression> expressions = new ArrayList<>();
 		for (String input : inputs) {
-			BinaryTree<String> tree = buildPrecedenceTree(input);
+			BinaryTree<String> tree = buildPrecedenceTree(convertToPrefix(Tokenizer.tokenize(input)));
 			parsePreOrder(tree.getRoot(), expression);
 			expressions.add(expression);
 			expression = null;
@@ -31,9 +33,39 @@ public class ParserImpl implements Parser {
 		return expressions;
 	}
 
-	private BinaryTree<String> buildPrecedenceTree(String input) {
-		// TODO - Build and return a precedence tree from input string.
-		return null;
+	private BinaryTree<String> buildPrecedenceTree(String[] inputs) {
+		BinaryTree<String> binaryTree = new BinaryTree<>();
+		int i = 0;
+		while (i < inputs.length) {
+			if (Operators.isOperator(inputs[i])) {
+				if (Operators.isUnaryOperator(inputs[i])) {
+					binaryTree.insert(inputs[i]);
+					i++;
+					binaryTree.insert(inputs[i]);
+					binaryTree.insert("NULL");
+					i++;
+				}
+			} else {
+				binaryTree.insert(inputs[i]);
+				i++;
+			}
+		}
+
+		return binaryTree;
+	}
+
+	// private String[] convertToPostfix(String[] input) {
+	// return input;
+	// }
+
+	private String[] convertToPrefix(String[] input) {
+		List<String> prefix = new ArrayList<>();
+		for(String i: input) {
+			if(Tokenizer.isVariable(i)) {
+				prefix.add(i);
+			}
+		}
+		return (String[]) prefix.toArray();
 	}
 
 	private void parsePreOrder(Node<String> root, Expression expression) {

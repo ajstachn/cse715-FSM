@@ -20,15 +20,18 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.part.*;
 
-import finite_state_machine.AdditionOp;
-import finite_state_machine.ConstantExpr;
+
+import edu.buffalo.cse715.parsing.expression.AExpression;
+import edu.buffalo.cse715.parsing.expression.Expression;
+import edu.buffalo.cse715.parsing.expression.GExpression;
+import edu.buffalo.cse715.parsing.expression.IExpression;
+import edu.buffalo.cse715.parsing.expression.VariableExpression;
+import edu.buffalo.cse715.parsing.expression.literal.StringValueExpression;
+import edu.buffalo.cse715.parsing.expression.relational.EqualityExpression;
 import finite_state_machine.Context;
-import finite_state_machine.Expression;
-import finite_state_machine.IntegerValue;
-import finite_state_machine.IsEqual;
-import finite_state_machine.PrimitiveValue;
-import finite_state_machine.StringValue;
-import finite_state_machine.Variable;
+import finite_state_machine.ExpressionEvaluator;
+import finite_state_machine.Graph;
+import finite_state_machine.State;
 
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Image;
@@ -99,6 +102,8 @@ public class FiniteStateMachine extends ViewPart {
 	Composite imageComposite;
 	Composite image2Composite;
 	private Image image;
+	
+	private List<IExpression> queries;
 	
 	public boolean horizontal;
 	public boolean vertical;
@@ -922,30 +927,8 @@ public class FiniteStateMachine extends ViewPart {
 			
 			paStates = new ArrayList<State>();
 
-			Map<String,Integer> varLookupMap = new HashMap<String,Integer>();
-			for (int i=0;i<keys.size();++i) {
-				varLookupMap.put(keys.get(i).toString(),i);
-			}
-			
-			for (int s=0; s<states.size(); s++) {
-				State st=states.get(s);
-				Context cxt = new Context() {
-					public PrimitiveValue getvar(Variable name) {
-						int ix=varLookupMap.get(name.getName());
-						return new StringValue(st.get(ix));
-					}
-				};
-				Expression expr = new IsEqual(new Variable("state.State:1->state"),new ConstantExpr(new StringValue("H")));
-				try {
-					System.out.println(expr.evaluate(cxt));
-				} catch (Exception e) {
-					
-					System.out.println("error:"+e.toString());
-				}
-				
+			for (int s=0; s<states.size(); s++) {			
 				State paState = new State();
-				System.out.println(keys.get(0));
-				System.out.println(states.get(s)+Integer.toString(s));
 				paState.copy(states.get(s));
 				paStates.add(paState);
 			}
@@ -1118,6 +1101,9 @@ public class FiniteStateMachine extends ViewPart {
 			transitions.put(transition, 1);
 			int s = 0;
 			String lastTransition = "";
+			Graph transitionGraph=new Graph();
+			Map<String,State> nodes=new HashMap<String,State>();
+			
 			while (s<count && s<paStates.size()-1) {
 				if (paStates.get(s).hashed && paStates.get(s+1).hashed) // skip the transition
 					; // Both from and to states do not have the selection
@@ -1127,14 +1113,17 @@ public class FiniteStateMachine extends ViewPart {
 					transition = new String("\"" + paStates.get(s+1).toString() + "\""
 							+ " -[#white]-> "
 							+ "\"" + paStates.get(s+1).toString() + "\"");
-
+					transitionGraph.addEdge(paStates.get(s+1).toString(), paStates.get(s+1).toString());
+					nodes.put(paStates.get(s+1).toString(),paStates.get(s+1));
 					transitions.merge(transition, 1, Integer::sum);					
 				}					
 				else {
 					transition = new String("\"" + paStates.get(s).toString() + "\""
 										+ " --> "
 										+ "\"" + paStates.get(s+1).toString() + "\"");
-
+					transitionGraph.addEdge(paStates.get(s).toString(), paStates.get(s+1).toString());
+					nodes.put(paStates.get(s).toString(),paStates.get(s));
+					nodes.put(paStates.get(s+1).toString(),paStates.get(s+1));
 					transitions.merge(transition, 1, Integer::sum);
 					lastTransition = new String(transition);
 				}
@@ -1147,8 +1136,14 @@ public class FiniteStateMachine extends ViewPart {
 					transitions.put(lastTransition + " #red", value);
 				}
 			}
-
 			sd.printTransitions();
+			
+			queries=new ArrayList<IExpression>();
+			Expression expr=new AExpression(new GExpression(new EqualityExpression(new VariableExpression("state.State:1->state"),new StringValueExpression("T"))));
+			queries.add(expr);
+			
+			System.out.println(transitionGraph.toString());
+			
 		}
 		
 		public void printTransitions() { // Uses lambda
@@ -1290,64 +1285,7 @@ public class FiniteStateMachine extends ViewPart {
 		}
 	}
 
-	class State {
-		ArrayList<String> keyVar = new ArrayList<String>();
-		String method = null;
-		boolean hashed = false;
-		int time = 0;
-
-		public int getSize() {
-			return keyVar.size();
-		}
-
-		public void set(int index, String value) {
-			keyVar.add(index,value);
-		}
-
-		public String get(int index) {
-			return keyVar.get(index);
-		}
-		
-		public void setMethod(String m) {
-			method = m;
-		}
-		
-		public String getMethod() {
-			return method;
-		}
-
-		public void remove(int index) {
-			keyVar.remove(index);
-		}
-
-		public void copy(State s) {
-			for (int j=0; j<s.getSize(); j++) {
-				keyVar.add(j,s.get(j));
-			}
-			if (s.method != null)
-				method = new String(s.method);
-			time = s.time;
-		}
-		
-		public String toString() {
-			StringBuffer sbKeys = new StringBuffer();
-			sbKeys.append(keyVar.get(0));
-			for (int j=1; j<keyVar.size(); j++) {
-				sbKeys.append(",");
-				sbKeys.append(keyVar.get(j));
-			}
-			return sbKeys.toString();
-		}
-
-		public void print(int flag) {
-			if (flag == 0)
-				System.out.println(toString());
-			else if (flag == 1)
-				System.out.println(toString() + " (" + method + ") " + hashed + " time=" + time);
-		}
-	}
-	
-	class Transition {
+		class Transition {
 		String current;
 		String next;
 		String method;

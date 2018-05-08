@@ -1,6 +1,9 @@
 package edu.buffalo.cse715.parsing.expression.logical;
 
+import edu.buffalo.cse715.parsing.expression.literal.BooleanValueExpression;
+import edu.buffalo.cse715.parsing.expression.literal.Literal;
 import edu.buffalo.cse715.parsing.expression.relational.RelationalExpression;
+import finite_state_machine.Context;
 
 /**
  * @author Shashank Raghunath
@@ -28,5 +31,20 @@ public class NotExpression extends LogicalExpression {
 	public void setRelationalExpression(RelationalExpression relationalExpression) {
 		this.relationalExpression = relationalExpression;
 	}
+	
+	public Literal evaluate(Context c) {
+		Literal a =  relationalExpression.evaluate(c);
+
+		if((a instanceof RelationalExpression ))
+		{
+		Boolean ans = !Boolean.parseBoolean(a.toString()) ;
+		BooleanValueExpression answer = new BooleanValueExpression();
+		answer.setLiteral(ans);
+		return answer;
+		}
+
+		return null;
+	}
+
 
 }

@@ -8,6 +8,7 @@ import java.util.Set;
 public class Graph {
 	
 	private Map<String,Set<String>> edges = new HashMap<String,Set<String>>();
+	public Map<String,State> nodeMap;
 	
 	public void addEdge(String head, String tail) {
 		Set<String> transitions=edges.get(head);

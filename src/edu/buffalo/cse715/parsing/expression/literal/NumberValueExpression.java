@@ -3,6 +3,8 @@
  */
 package edu.buffalo.cse715.parsing.expression.literal;
 
+import finite_state_machine.Context;
+
 /**
  * @author Shashank Raghunath
  * @email sraghuna@buffalo.edu
@@ -28,5 +30,11 @@ public class NumberValueExpression extends ValueExpression implements Literal<Nu
 	public void setLiteral(Number literal) {
 		this.literal = literal;
 	}
+	
+	public Literal evaluate(Context c) {
+		NumberValueExpression answer = new NumberValueExpression();
+		answer.setLiteral(literal);
+		return answer;
+		}
 
 }

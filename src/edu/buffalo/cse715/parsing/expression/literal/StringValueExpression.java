@@ -3,6 +3,8 @@
  */
 package edu.buffalo.cse715.parsing.expression.literal;
 
+import finite_state_machine.Context;
+
 /**
  * @author Shashank Raghunath
  * @email sraghuna@buffalo.edu
@@ -28,5 +30,10 @@ public class StringValueExpression extends ValueExpression implements Literal<St
 	public void setLiteral(String literal) {
 		this.literal = literal;
 	}
+	public Literal evaluate(Context c) {
+		StringValueExpression answer = new StringValueExpression();
+		answer.setLiteral(literal);
+		return answer;
+		}
 
 }

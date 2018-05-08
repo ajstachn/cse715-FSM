@@ -5,8 +5,8 @@ import edu.buffalo.cse715.parsing.expression.IBinaryExpression;
 
 public abstract class ArithmeticExpression extends Expression implements IBinaryExpression {
 
-	private Expression expressionA;
-	private Expression expressionB;
+	protected Expression expressionA;
+	protected Expression expressionB;
 
 	public ArithmeticExpression() {
 		super();

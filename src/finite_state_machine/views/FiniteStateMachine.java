@@ -947,8 +947,13 @@ public class FiniteStateMachine extends ViewPart {
 				System.out.println(keys.get(0));
 				System.out.println(states.get(s)+Integer.toString(s));
 				paState.copy(states.get(s));
+				paState.setInvalid(states.get(s).isInvalid());
 				paStates.add(paState);
 			}
+			
+			//Temporary code for visualization
+			paStates.get(5).setInvalid(true);
+			paStates.get(12).setInvalid(true);
 			
 			String paStr = paText.getText().trim();
 			if (paStr.equals(""))
@@ -1131,10 +1136,16 @@ public class FiniteStateMachine extends ViewPart {
 					transitions.merge(transition, 1, Integer::sum);					
 				}					
 				else {
-					transition = new String("\"" + paStates.get(s).toString() + "\""
-										+ " --> "
-										+ "\"" + paStates.get(s+1).toString() + "\"");
-
+					if(paStates.get(s).isInvalid()) {
+						transition = new String("\"" + paStates.get(s).toString() + "\""+"#red"
+								+ " --> "
+								+ "\"" + paStates.get(s+1).toString() + "\"");
+					} 
+					else {
+						transition = new String("\"" + paStates.get(s).toString() + "\""
+								+ " --> "
+								+ "\"" + paStates.get(s+1).toString() + "\"");
+					}
 					transitions.merge(transition, 1, Integer::sum);
 					lastTransition = new String(transition);
 				}
@@ -1144,7 +1155,7 @@ public class FiniteStateMachine extends ViewPart {
 				if (transitions.containsKey(lastTransition)) {
 					int value = transitions.get(lastTransition);
 					transitions.remove(lastTransition);
-					transitions.put(lastTransition + " #red", value);
+					transitions.put(lastTransition + " #yellow", value);
 				}
 			}
 
@@ -1295,6 +1306,7 @@ public class FiniteStateMachine extends ViewPart {
 		String method = null;
 		boolean hashed = false;
 		int time = 0;
+		boolean invalid = false;
 
 		public int getSize() {
 			return keyVar.size();
@@ -1314,6 +1326,14 @@ public class FiniteStateMachine extends ViewPart {
 		
 		public String getMethod() {
 			return method;
+		}
+
+		public boolean isInvalid() {
+			return invalid;
+		}
+		
+		public void setInvalid(boolean inval) {
+			invalid = inval;
 		}
 
 		public void remove(int index) {

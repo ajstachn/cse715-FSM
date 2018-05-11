@@ -43,7 +43,7 @@ public class Tokenizer {
 			} else if (Lexer.nextToken == Token.INT_LIT)
 				output.add(String.valueOf(Lexer.intValue));
 			else
-				output.add(String.valueOf(Lexer.nextChar));
+				output.add(Operators.getOperator(Lexer.nextToken));
 			lexer.lex();
 		}
 		return output;

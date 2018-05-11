@@ -1,5 +1,9 @@
 package edu.buffalo.cse715.parsing.model;
-
+/**
+ * @author Bharat Jayaraman
+ * @email bharat@buffalo.edu
+ *
+ */
 public class Token {
 	public static final int SEMICOLON = 0;
 	public static final int COMMA = 1;

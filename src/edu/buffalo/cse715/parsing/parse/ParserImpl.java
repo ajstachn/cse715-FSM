@@ -41,7 +41,7 @@ public class ParserImpl implements Parser {
 		return expressions;
 	}
 
-	public Node<String> buildPrecedenceTree(List<String> inputs) {
+	private Node<String> buildPrecedenceTree(List<String> inputs) {
 		Stack<Node<String>> stack = new Stack<>();
 		int i = 0;
 		while (i < inputs.size()) {
@@ -150,7 +150,7 @@ public class ParserImpl implements Parser {
 		return result;
 	}
 
-	public Expression parsePreOrder(Node<String> root, Expression expression) {
+	private Expression parsePreOrder(Node<String> root, Expression expression) {
 		if (root == null) {
 			return null;
 		}

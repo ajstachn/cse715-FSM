@@ -20,9 +20,10 @@ public class Operators {
 		map.put("-", 11);
 		map.put("/", 12);
 		map.put("*", 12);
+		map.put("^", 13);
 		map.put("->", 16);
-		map.put("(", 15);
-		// map.put("[", 1);
+		map.put("||", 15);
+		map.put("&&", 15);
 		map.put("==", 8);
 		map.put("!=", 8);
 		map.put(">=", 9);
@@ -30,11 +31,9 @@ public class Operators {
 		map.put("<", 9);
 		map.put(">", 9);
 		map.put("!", 14);
-		map.put("&&", 4);
-		map.put("||", 3);
+		map.put("=", 17);
 		map.put("A", 18);
 		map.put("G", 18);
-		map.put("=", 17);
 		OPERATOR_PRECEDENCE = Collections.unmodifiableMap(map);
 	}
 

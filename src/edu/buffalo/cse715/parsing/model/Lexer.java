@@ -1,5 +1,9 @@
 package edu.buffalo.cse715.parsing.model;
-
+/**
+ * @author Bharat Jayaraman
+ * @email bharat@buffalo.edu
+ *
+ */
 public class Lexer {
 
 	static public char ch = ' ';

@@ -2,7 +2,11 @@ package edu.buffalo.cse715.parsing.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Shashank Raghunath
+ * @email sraghuna@buffalo.edu
+ *
+ */
 public class Tokenizer {
 
 	private Lexer lexer;

@@ -1,6 +1,7 @@
 package edu.buffalo.cse715.parsing.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -92,21 +93,7 @@ public class InfixToPostfixExpression {
 		// String exp = "a+b*(c^d-e)^(f+g*h)-i";
 		InfixToPostfixExpression inToPost = new InfixToPostfixExpression();
 		String exp = "G [w = 1 > r = 0]";
-		List<String> expList = new ArrayList<>();
-		expList.add("G");
-		expList.add("[");
-		expList.add("(");
-		expList.add("w");
-		expList.add("=");
-		expList.add("1");
-		expList.add(")");
-		expList.add("||");
-		expList.add("(");
-		expList.add("r");
-		expList.add("=");
-		expList.add("0");
-		expList.add(")");
-		expList.add("]");
+		List<String> expList = Arrays.asList("G","[","w","=","1","->","r","=","0","]");		
 		// String exp = "a+b*[c^d-e]^[f+g*h]-i";
 		System.out.println(inToPost.infixToPostfix(expList));
 	}

@@ -1,5 +1,6 @@
 package edu.buffalo.cse715.parsing.expression.logical;
 
+import edu.buffalo.cse715.parsing.expression.Expression;
 import edu.buffalo.cse715.parsing.expression.IBinaryExpression;
 import edu.buffalo.cse715.parsing.expression.relational.RelationalExpression;
 
@@ -38,6 +39,18 @@ public class OrExpression extends LogicalExpression implements IBinaryExpression
 
 	public void setExpressionB(RelationalExpression expressionB) {
 		this.expressionB = expressionB;
+	}
+
+	@Override
+	public void setExpressionA(Expression expression) {
+		// TODO Auto-generated method stub
+		this.expressionA = (RelationalExpression) expression;
+	}
+
+	@Override
+	public void setExpressionB(Expression expression) {
+		// TODO Auto-generated method stub
+		this.expressionB = (RelationalExpression) expression;
 	}
 
 }

@@ -26,7 +26,7 @@ public class GExpression extends Expression {
 		return expression;
 	}
 
-	public void setExpression(Expression expression) {
+	public void setExpressionA(Expression expression) {
 		this.expression = expression;
 	}
 

@@ -13,4 +13,6 @@ public abstract class LogicalExpression extends Expression {
 	public Expression getExpressionA() {
 		return this;
 	}
+	
+	
 }

@@ -35,4 +35,10 @@ public class AExpression extends Expression {
 		return expression;
 	}
 
+	@Override
+	public void setExpressionA(Expression expression) {
+		// TODO Auto-generated method stub
+		this.expression = expression;
+	}
+
 }

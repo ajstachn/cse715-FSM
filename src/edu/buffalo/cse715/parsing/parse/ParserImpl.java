@@ -1,13 +1,16 @@
 package edu.buffalo.cse715.parsing.parse;
 
+import java.io.DataInputStream;
+import java.io.StringBufferInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
-import edu.buffalo.cse715.parsing.expression.AExpression;
 import edu.buffalo.cse715.parsing.expression.Expression;
-import edu.buffalo.cse715.parsing.expression.GExpression;
+import edu.buffalo.cse715.parsing.expression.ExpressionFactory;
 import edu.buffalo.cse715.parsing.expression.IBinaryExpression;
-import edu.buffalo.cse715.parsing.model.BinaryTree;
+import edu.buffalo.cse715.parsing.model.Buffer;
 import edu.buffalo.cse715.parsing.model.Node;
 import edu.buffalo.cse715.parsing.model.Operators;
 import edu.buffalo.cse715.parsing.model.Tokenizer;
@@ -17,6 +20,7 @@ import edu.buffalo.cse715.parsing.model.Tokenizer;
  * @email sraghuna@buffalo.edu
  *
  */
+@SuppressWarnings("deprecation")
 public class ParserImpl implements Parser {
 
 	private Expression expression;
@@ -25,72 +29,65 @@ public class ParserImpl implements Parser {
 	public List<Expression> parse(String[] inputs) {
 		List<Expression> expressions = new ArrayList<>();
 		for (String input : inputs) {
-			BinaryTree<String> tree = buildPrecedenceTree(convertToPrefix(Tokenizer.tokenize(input)));
-			parsePreOrder(tree.getRoot(), expression);
-			expressions.add(expression);
+			StringBuffer buffer = new StringBuffer(input);
+			buffer.append(";");
+			Tokenizer tokenizer = new Tokenizer(
+					new Buffer(new DataInputStream(new StringBufferInputStream(buffer.toString()))));
+			Node<String> tree = buildPrecedenceTree(convertToPrefix(tokenizer.tokenize()));
+			expressions.add(parsePreOrder(tree, expression));
 			expression = null;
 		}
 		return expressions;
 	}
 
-	private BinaryTree<String> buildPrecedenceTree(String[] inputs) {
-		BinaryTree<String> binaryTree = new BinaryTree<>();
+	public Node<String> buildPrecedenceTree(List<String> inputs) {
+		Stack<Node<String>> stack = new Stack<>();
 		int i = 0;
-		while (i < inputs.length) {
-			if (Operators.isOperator(inputs[i])) {
-				if (Operators.isUnaryOperator(inputs[i])) {
-					binaryTree.insert(inputs[i]);
-					i++;
-					binaryTree.insert(inputs[i]);
-					binaryTree.insert("NULL");
-					i++;
+		while (i < inputs.size()) {
+			if (Operators.isOperator(inputs.get(i))) {
+				if (Operators.isUnaryOperator(inputs.get(i))) {
+					Node<String> node = new Node<>();
+					node.setData(inputs.get(i));
+					node.setLeft(stack.pop());
+					node.setRight(new Node<String>("NULL"));
+					stack.push(node);
+				} else {
+					Node<String> node = new Node<>();
+					node.setData(inputs.get(i));
+					node.setRight(stack.pop());
+					node.setLeft(stack.pop());
+					stack.push(node);
 				}
 			} else {
-				binaryTree.insert(inputs[i]);
-				i++;
+				stack.push(new Node<>(inputs.get(i)));
 			}
+			i++;
 		}
 
-		return binaryTree;
+		return stack.pop();
 	}
 
 	// private String[] convertToPostfix(String[] input) {
 	// return input;
 	// }
 
-	private String[] convertToPrefix(String[] input) {
-		List<String> prefix = new ArrayList<>();
-		for(String i: input) {
-			if(Tokenizer.isVariable(i)) {
-				prefix.add(i);
-			}
-		}
-		return (String[]) prefix.toArray();
+	private List<String> convertToPrefix(List<String> input) {
+		return Arrays.asList("w", "1", "=", "r", "0", "=", "->", "G");
 	}
 
-	private void parsePreOrder(Node<String> root, Expression expression) {
+	public Expression parsePreOrder(Node<String> root, Expression expression) {
 		if (root == null) {
-			return;
+			return null;
 		}
 		String data = root.getData();
+		expression = ExpressionFactory.getExpression(data);
 		if (expression instanceof IBinaryExpression) {
-			switch (data) {
-
-			}
-			parsePreOrder(root.getLeft(), ((IBinaryExpression) this.expression).getExpressionA());
-			parsePreOrder(root.getRight(), ((IBinaryExpression) this.expression).getExpressionB());
+			expression.setExpressionA(parsePreOrder(root.getLeft(), ((IBinaryExpression) expression).getExpressionA()));
+			((IBinaryExpression) expression)
+					.setExpressionB(parsePreOrder(root.getRight(), ((IBinaryExpression) expression).getExpressionB()));
 		} else {
-			switch (data) {
-			case "A":
-				expression = new AExpression();
-				break;
-			case "G":
-				expression = new GExpression();
-				break;
-			default:
-				break;
-			}
-			parsePreOrder(root.getLeft(), this.expression.getExpressionA());
+			expression.setExpressionA(parsePreOrder(root.getLeft(), expression.getExpressionA()));
 		}
+		return expression;
 	}
 }

@@ -47,4 +47,16 @@ public class AssignmentExpression extends Expression implements IBinaryExpressio
 		// TODO Auto-generated method stub
 		return expression;
 	}
+
+	@Override
+	public void setExpressionA(Expression expression) {
+		// TODO Auto-generated method stub
+		this.variable = (VariableExpression) expression;
+	}
+
+	@Override
+	public void setExpressionB(Expression expression) {
+		// TODO Auto-generated method stub
+		this.expression = expression;
+	}
 }

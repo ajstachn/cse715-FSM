@@ -3,6 +3,8 @@
  */
 package edu.buffalo.cse715.parsing.expression.literal;
 
+import edu.buffalo.cse715.parsing.expression.Expression;
+
 /**
  * @author Shashank Raghunath
  * @email sraghuna@buffalo.edu
@@ -27,6 +29,12 @@ public class StringValueExpression extends ValueExpression implements Literal<St
 
 	public void setLiteral(String literal) {
 		this.literal = literal;
+	}
+
+	@Override
+	public void setExpressionA(Expression expression) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

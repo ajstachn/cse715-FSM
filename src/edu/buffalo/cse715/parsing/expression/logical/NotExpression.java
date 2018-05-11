@@ -1,5 +1,6 @@
 package edu.buffalo.cse715.parsing.expression.logical;
 
+import edu.buffalo.cse715.parsing.expression.Expression;
 import edu.buffalo.cse715.parsing.expression.relational.RelationalExpression;
 
 /**
@@ -27,6 +28,12 @@ public class NotExpression extends LogicalExpression {
 
 	public void setRelationalExpression(RelationalExpression relationalExpression) {
 		this.relationalExpression = relationalExpression;
+	}
+
+	@Override
+	public void setExpressionA(Expression expression) {
+		// TODO Auto-generated method stub
+		this.relationalExpression = (RelationalExpression) expression;
 	}
 
 }

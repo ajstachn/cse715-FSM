@@ -32,4 +32,11 @@ public class VariableExpression extends Expression {
 		return this;
 	}
 
+	@Override
+	public void setExpressionA(Expression expression) {
+		
+		
+	}
+
+	
 }

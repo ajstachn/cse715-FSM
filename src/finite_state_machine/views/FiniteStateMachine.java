@@ -126,6 +126,12 @@ public class FiniteStateMachine extends ViewPart {
 	private Button transitionCount;
 	private Button aRun;
 	
+	// changes for grammarExpression begin
+	private Label grammarLabel; 	
+	private Text grammarText;
+	private Button validate;
+	// changes for grammarExpression end	
+	
 	StateDiagram sd;
 	private Label kvSyntax;
 	private Label kvSpace;
@@ -320,7 +326,26 @@ public class FiniteStateMachine extends ViewPart {
 		paSyntax.setText("Comma-separated entries each of which may be =n, <n, >n, #n, \n"
 				+ "[a:b:..:c] or left empty, e.g., =5,,>3,[2:5:8],#true,<4.17,=str");
 		// Predicate abstraction changes end
-
+		
+		//changes for grammar expression begin
+		
+		Composite grammarView = new Composite(mainComposite, SWT.NONE);
+		grammarView.setLayout(new GridLayout(3, false));
+		grammarView.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		
+		grammarLabel = new Label(grammarView, SWT.FILL);
+		grammarLabel.setText("Expression   ");
+		
+		grammarText = new Text(grammarView, SWT.BORDER|SWT.FILL);
+		GridData grid = new GridData();
+		grid.widthHint = 400;
+		grammarText.setLayoutData(grid);
+		
+		validate = new Button(grammarView, SWT.PUSH);
+		validate.setText("Validate");
+		validate.setToolTipText("Validates if expression is satisfied by runtime");		
+		
+		//changes for grammar expression end
 			
 		// Image composite
 		

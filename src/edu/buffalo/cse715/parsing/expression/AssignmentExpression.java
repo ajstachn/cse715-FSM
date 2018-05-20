@@ -1,11 +1,14 @@
 package edu.buffalo.cse715.parsing.expression;
 
+import edu.buffalo.cse715.parsing.expression.literal.ValueExpression;
+import finite_state_machine.Context;
+
 /**
  * @author Shashank Raghunath
  * @email sraghuna@buffalo.edu
  *
  */
-public class AssignmentExpression extends Expression implements IBinaryExpression {
+public class AssignmentExpression extends Expression {
 
 	private VariableExpression variable;
 	private Expression expression;
@@ -36,27 +39,10 @@ public class AssignmentExpression extends Expression implements IBinaryExpressio
 	public void setExpression(Expression expression) {
 		this.expression = expression;
 	}
-
-	@Override
-	public Expression getExpressionA() {
-		return variable;
+	
+	public ValueExpression evaluate(Context cxt) {
+		//TODO Fill in
+		return null;
 	}
 
-	@Override
-	public Expression getExpressionB() {
-		// TODO Auto-generated method stub
-		return expression;
-	}
-
-	@Override
-	public void setExpressionA(Expression expression) {
-		// TODO Auto-generated method stub
-		this.variable = (VariableExpression) expression;
-	}
-
-	@Override
-	public void setExpressionB(Expression expression) {
-		// TODO Auto-generated method stub
-		this.expression = expression;
-	}
 }

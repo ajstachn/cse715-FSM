@@ -3,7 +3,7 @@
  */
 package edu.buffalo.cse715.parsing.expression.literal;
 
-import edu.buffalo.cse715.parsing.expression.Expression;
+import finite_state_machine.Context;
 
 /**
  * @author Shashank Raghunath
@@ -31,10 +31,32 @@ public class BooleanValueExpression extends ValueExpression implements Literal<B
 		this.literal = literal;
 	}
 
-	@Override
-	public void setExpressionA(Expression expression) {
-		// TODO Auto-generated method stub
-		
+	
+
+	public ValueExpression evaluate(Context cxt) {
+		//TODO Fill in
+		return null;
 	}
+
+	@Override
+	public StringValueExpression expectString() {
+		return new StringValueExpression(literal.toString());
+	}
+
+	@Override
+	public IntValueExpression expectInt() throws IllegalStateException {
+		throw new IllegalStateException("Cannot convert bool to int");
+	}
+
+	@Override
+	public FloatValueExpression expectFloat() throws IllegalStateException {
+		throw new IllegalStateException("Cannot convert bool to float");
+	}
+
+	@Override
+	public BooleanValueExpression expectBool() throws IllegalStateException {
+		return this;
+	}
+
 
 }

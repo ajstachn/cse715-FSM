@@ -1,6 +1,9 @@
 package edu.buffalo.cse715.parsing.expression.edge;
 
 import edu.buffalo.cse715.parsing.expression.Expression;
+import edu.buffalo.cse715.parsing.expression.literal.ValueExpression;
+import finite_state_machine.Context;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -8,17 +11,6 @@ public class EdgeExpression extends Expression {
 	List<String> leftEdgeVector;
 	List<String> rightEdgeVector;
 
-	@Override
-	public Expression getExpressionA() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setExpressionA(Expression expression) {
-		// TODO Auto-generated method stub
-
-	}
 
 	public List<String> getLeftEdgeVector() {
 		if (leftEdgeVector == null)
@@ -38,6 +30,13 @@ public class EdgeExpression extends Expression {
 
 	public void setRightEdgeVector(List<String> rightEdgeVector) {
 		this.rightEdgeVector = rightEdgeVector;
+	}
+
+	
+
+	public ValueExpression evaluate(Context cxt) {
+		//TODO Fill in
+		return null;
 	}
 
 }

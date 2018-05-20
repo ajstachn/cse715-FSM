@@ -1102,7 +1102,6 @@ public class FiniteStateMachine extends ViewPart {
 			int s = 0;
 			String lastTransition = "";
 			Graph transitionGraph=new Graph();
-			Map<String,State> nodes=new HashMap<String,State>();
 			
 			while (s<count && s<paStates.size()-1) {
 				if (paStates.get(s).hashed && paStates.get(s+1).hashed) // skip the transition
@@ -1113,17 +1112,14 @@ public class FiniteStateMachine extends ViewPart {
 					transition = new String("\"" + paStates.get(s+1).toString() + "\""
 							+ " -[#white]-> "
 							+ "\"" + paStates.get(s+1).toString() + "\"");
-					transitionGraph.addEdge(paStates.get(s+1).toString(), paStates.get(s+1).toString());
-					nodes.put(paStates.get(s+1).toString(),paStates.get(s+1));
+					transitionGraph.addEdge(paStates.get(s+1), paStates.get(s+1));
 					transitions.merge(transition, 1, Integer::sum);					
 				}					
 				else {
 					transition = new String("\"" + paStates.get(s).toString() + "\""
 										+ " --> "
 										+ "\"" + paStates.get(s+1).toString() + "\"");
-					transitionGraph.addEdge(paStates.get(s).toString(), paStates.get(s+1).toString());
-					nodes.put(paStates.get(s).toString(),paStates.get(s));
-					nodes.put(paStates.get(s+1).toString(),paStates.get(s+1));
+					transitionGraph.addEdge(paStates.get(s), paStates.get(s+1));
 					transitions.merge(transition, 1, Integer::sum);
 					lastTransition = new String(transition);
 				}

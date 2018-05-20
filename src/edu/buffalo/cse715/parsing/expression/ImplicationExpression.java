@@ -1,11 +1,14 @@
 package edu.buffalo.cse715.parsing.expression;
 
+import edu.buffalo.cse715.parsing.expression.literal.ValueExpression;
+import finite_state_machine.Context;
+
 /**
  * @author Shashank Raghunath
  * @email sraghuna@buffalo.edu
  *
  */
-public class ImplicationExpression extends Expression implements IBinaryExpression {
+public class ImplicationExpression extends Expression {
 
 	private Expression expressionA;
 	private Expression expressionB;
@@ -37,4 +40,11 @@ public class ImplicationExpression extends Expression implements IBinaryExpressi
 		this.expressionB = expressionB;
 	}
 
+
+	public ValueExpression evaluate(Context cxt) {
+		//TODO Fill in
+		return null;
+	}
+
+	
 }

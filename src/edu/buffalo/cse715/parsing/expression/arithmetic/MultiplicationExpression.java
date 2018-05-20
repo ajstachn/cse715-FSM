@@ -10,9 +10,11 @@ import finite_state_machine.Context;
  */
 public class MultiplicationExpression extends ArithmeticExpression {
 
-	public ValueExpression evaluate(Context cxt) {
-		//TODO Fill in
-		return null;
-	}
 
+	public ValueExpression evaluate() {
+		int lhs=this.getExpressionA();
+		Number lhs=((NumberValueExpression)this.getExpressionA()).getLiteral();
+		Number rhs=((NumberValueExpression)this.getExpressionB()).getLiteral();
+		return new NumberValueExpression(lhs*rhs);
+	}
 }

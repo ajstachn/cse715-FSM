@@ -63,6 +63,7 @@ import java.util.TreeSet;
 import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.Iterator;
+import java.awt.TextArea;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
@@ -126,11 +127,11 @@ public class FiniteStateMachine extends ViewPart {
 	private Button transitionCount;
 	private Button aRun;
 	
-	// changes for grammarExpression begin
-	private Label grammarLabel; 	
-	private Text grammarText;
-	private Button validate;
-	// changes for grammarExpression end	
+	// changes for property checking begin
+	private Label propertyLabel; 	
+	private Text propertyText;
+	private Button check;
+	// changes for property checking end	
 	
 	StateDiagram sd;
 	private Label kvSyntax;
@@ -327,25 +328,26 @@ public class FiniteStateMachine extends ViewPart {
 				+ "[a:b:..:c] or left empty, e.g., =5,,>3,[2:5:8],#true,<4.17,=str");
 		// Predicate abstraction changes end
 		
-		//changes for grammar expression begin
+		//changes for property checking begin
 		
 		Composite grammarView = new Composite(mainComposite, SWT.NONE);
 		grammarView.setLayout(new GridLayout(3, false));
 		grammarView.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		
-		grammarLabel = new Label(grammarView, SWT.FILL);
-		grammarLabel.setText("Expression   ");
+		propertyLabel = new Label(grammarView, SWT.FILL);
+		propertyLabel.setText("Property       ");
 		
-		grammarText = new Text(grammarView, SWT.BORDER|SWT.FILL);
+		propertyText = new Text(grammarView,SWT.V_SCROLL);
 		GridData grid = new GridData();
 		grid.widthHint = 400;
-		grammarText.setLayoutData(grid);
+		grid.heightHint = 50;
+		propertyText.setLayoutData(grid);
 		
-		validate = new Button(grammarView, SWT.PUSH);
-		validate.setText("Validate");
-		validate.setToolTipText("Validates if expression is satisfied by runtime");		
+		check = new Button(grammarView, SWT.PUSH);
+		check.setText("Check");
+		check.setToolTipText("Checks if expression is satisfied by runtime");		
 		
-		//changes for grammar expression end
+		//changes for property checking end
 			
 		// Image composite
 		

@@ -446,6 +446,17 @@ public class FiniteStateMachine extends ViewPart {
 				addButtonAction(e);
 			}
 		});
+		
+		//changes for property checking begin
+		check.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String properties = propertyText.getText().trim();
+				if(properties.length() > 0)
+					parse(properties.split(propertyText.getLineDelimiter()));
+			}
+		});
+		//changes for property checking end		
 
 		drawButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -1428,4 +1439,19 @@ public class FiniteStateMachine extends ViewPart {
 	public void setFocus() {
 		//viewer.getControl().setFocus();
 	}
+	
+	//changes for property checking begin	
+	public List<Expression> parse(String[] inputs) {
+		
+		//for debugging only
+		System.out.println("parse function invoked with "+inputs.length+" argument(s)");
+		for(String property : inputs) {
+			System.out.println(property);
+		}
+		
+		List<Expression> expressions = new ArrayList<>();
+		return expressions;
+	}	
+	//changes for property checking end
+	
 }

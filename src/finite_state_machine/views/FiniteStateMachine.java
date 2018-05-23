@@ -28,6 +28,8 @@ import edu.buffalo.cse715.parsing.expression.IExpression;
 import edu.buffalo.cse715.parsing.expression.VariableExpression;
 import edu.buffalo.cse715.parsing.expression.literal.StringValueExpression;
 import edu.buffalo.cse715.parsing.expression.relational.EqualityExpression;
+import edu.buffalo.cse715.parsing.parse.Parser;
+import edu.buffalo.cse715.parsing.parse.ParserImpl;
 import finite_state_machine.Context;
 import finite_state_machine.ExpressionEvaluator;
 import finite_state_machine.Graph;
@@ -104,6 +106,7 @@ public class FiniteStateMachine extends ViewPart {
 	private Image image;
 	
 	private List<IExpression> queries;
+	private List<Expression> parsedExpresstionList;
 	
 	public boolean horizontal;
 	public boolean vertical;
@@ -131,6 +134,11 @@ public class FiniteStateMachine extends ViewPart {
 	private Button transitionCount;
 	private Button aRun;
 	
+	// changes for grammarExpression begin
+	private Label propertyLabel; 	
+	private Text propertyText;
+	private Button check;
+		
 	StateDiagram sd;
 	private Label kvSyntax;
 	private Label kvSpace;
@@ -325,8 +333,28 @@ public class FiniteStateMachine extends ViewPart {
 		paSyntax.setText("Comma-separated entries each of which may be =n, <n, >n, #n, \n"
 				+ "[a:b:..:c] or left empty, e.g., =5,,>3,[2:5:8],#true,<4.17,=str");
 		// Predicate abstraction changes end
+		
+		// changes for grammar expression begin
 
-			
+		Composite grammarView = new Composite(mainComposite, SWT.NONE);
+		grammarView.setLayout(new GridLayout(3, false));
+		grammarView.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+
+		propertyLabel = new Label(grammarView, SWT.FILL);
+		propertyLabel.setText("Properties       ");
+
+		propertyText = new Text(grammarView, SWT.V_SCROLL);
+		GridData grid = new GridData();
+		grid.widthHint = 500;
+		grid.heightHint = 100;
+		propertyText.setLayoutData(grid);
+
+		check = new Button(grammarView, SWT.PUSH);
+		check.setText("check");
+		check.setToolTipText("check if expression is satisfied by runtime");
+
+		// changes for grammar expression end
+
 		// Image composite
 		
 		imageComposite = new Composite(mainComposite, SWT.NONE);
@@ -424,6 +452,21 @@ public class FiniteStateMachine extends ViewPart {
 				addButtonAction(e);
 			}
 		});
+		
+		Parser parser = new ParserImpl();	
+		// changes for property checking begin
+		check.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String properties = propertyText.getText().trim();
+				if (properties.length() > 0) {
+					parsedExpresstionList = parser.parse(properties.split(propertyText.getLineDelimiter()));
+					System.out.println("Parsing done Successfully for " +  parsedExpresstionList.size()  + "  Expressions.");
+				}
+					
+			}
+		});
+		// changes for property checking end
 
 		drawButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -1319,4 +1362,5 @@ public class FiniteStateMachine extends ViewPart {
 	public void setFocus() {
 		//viewer.getControl().setFocus();
 	}
+	
 }

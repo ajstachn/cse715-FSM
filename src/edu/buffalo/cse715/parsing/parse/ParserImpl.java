@@ -20,6 +20,8 @@ import edu.buffalo.cse715.parsing.model.Tokenizer;
  * @author Shashank Raghunath
  * @email sraghuna@buffalo.edu
  *
+ * @author Sandeep Kumar
+ * @email skumar28@buffalo.edu
  */
 @SuppressWarnings("deprecation")
 public class ParserImpl implements Parser {
@@ -68,12 +70,8 @@ public class ParserImpl implements Parser {
 		return stack.pop();
 	}
 
-	/**
-	 * 
-	 * @author Sandeep Kumar
-	 * @email skumar28@buffalo.edu
-	 */
-	private List<String> convertToPostfix(List<String> input) {
+	
+	public List<String> convertToPostfix(List<String> input) {
 		// initializing empty String for result
 		List<String> result = new ArrayList<>();
 		Set<String> bracesSet = new HashSet<>();
@@ -92,6 +90,26 @@ public class ParserImpl implements Parser {
 			// If the scanned character is an operand, add it to output.
 			if (!Operators.OPERATOR_PRECEDENCE.containsKey(token) && !bracesSet.contains(token)) {
 				result.add(token);
+				continue;
+			}
+			
+			// if the token is belonging to Edge component then we need to take the whole vector between < >
+			if(token.equals("<") && input.lastIndexOf(">") >= i) {
+				int j = 0;
+				StringBuilder edgeBilder = new StringBuilder();
+				if(input.contains("=>")) {					
+					edgeBilder.append(token);
+					for(j = i+1; j <input.size(); j++) {
+						String edgeVec = input.get(j);
+						edgeBilder.append(edgeVec);
+						i++;
+						if(edgeVec.equals(">"))
+							break;						
+					}
+										
+				}				
+				result.add(edgeBilder.toString());
+				continue;
 			}
 
 			// If the scanned character is an '[', push it to the stack.
@@ -127,6 +145,7 @@ public class ParserImpl implements Parser {
 			{
 				while (!stack.isEmpty()) {
 					int precOp = Operators.OPERATOR_PRECEDENCE.get(token);
+					// pop operator till precedence is high at the top of stack
 					int stackPeekPrec = Operators.OPERATOR_PRECEDENCE.get(stack.peek()) == null ? -1
 							: Operators.OPERATOR_PRECEDENCE.get(stack.peek());
 					if (precOp < stackPeekPrec) {

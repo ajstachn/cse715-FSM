@@ -1,43 +1,33 @@
 package edu.buffalo.cse715.parsing.expression.edge;
 
 import edu.buffalo.cse715.parsing.expression.Expression;
-import java.util.List;
-import java.util.ArrayList;
+import edu.buffalo.cse715.parsing.expression.IBinaryExpression;
 
-public class EdgeExpression extends Expression {
-	List<String> leftEdgeVector;
-	List<String> rightEdgeVector;
+public class EdgeExpression extends Expression implements IBinaryExpression{
+	private Expression expressionA;
+	private Expression expressionB;
 
-	@Override
 	public Expression getExpressionA() {
 		// TODO Auto-generated method stub
-		return null;
+		return expressionA;
 	}
 
-	@Override
+	
 	public void setExpressionA(Expression expression) {
+		this.expressionA = expression;
+
+	}
+	
+
+	public Expression getExpressionB() {
 		// TODO Auto-generated method stub
-
+		return expressionB;
 	}
 
-	public List<String> getLeftEdgeVector() {
-		if (leftEdgeVector == null)
-			leftEdgeVector = new ArrayList<String>();
-		return leftEdgeVector;
+	
+	public void setExpressionB(Expression expression) {
+		this.expressionB = expression;
 	}
-
-	public void setLeftEdgeVector(List<String> leftEdgeVector) {
-		this.leftEdgeVector = leftEdgeVector;
-	}
-
-	public List<String> getRightEdgeVector() {
-		if (rightEdgeVector == null)
-			rightEdgeVector = new ArrayList<String>();
-		return rightEdgeVector;
-	}
-
-	public void setRightEdgeVector(List<String> rightEdgeVector) {
-		this.rightEdgeVector = rightEdgeVector;
-	}
-
+	
+	
 }

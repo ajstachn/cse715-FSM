@@ -11,10 +11,10 @@ import edu.buffalo.cse715.parsing.expression.relational.RelationalExpression;
  */
 public class OrExpression extends LogicalExpression implements IBinaryExpression {
 
-	private RelationalExpression expressionA;
-	private RelationalExpression expressionB;
+	private Expression expressionA;
+	private Expression expressionB;
 
-	public OrExpression(RelationalExpression expressionA, RelationalExpression expressionB) {
+	public OrExpression(Expression expressionA,Expression expressionB) {
 		super();
 		this.expressionA = expressionA;
 		this.expressionB = expressionB;
@@ -25,32 +25,32 @@ public class OrExpression extends LogicalExpression implements IBinaryExpression
 		// TODO Auto-generated constructor stub
 	}
 
-	public RelationalExpression getExpressionA() {
+	public Expression getExpressionA() {
 		return expressionA;
 	}
 
-	public void setExpressionA(RelationalExpression expressionA) {
+	/*public void setExpressionA(Expression expressionA) {
 		this.expressionA = expressionA;
-	}
+	}*/
 
-	public RelationalExpression getExpressionB() {
+	public Expression getExpressionB() {
 		return expressionB;
 	}
 
-	public void setExpressionB(RelationalExpression expressionB) {
+	/*public void setExpressionB(Expression expressionB) {
 		this.expressionB = expressionB;
-	}
+	}*/
 
 	@Override
 	public void setExpressionA(Expression expression) {
 		// TODO Auto-generated method stub
-		this.expressionA = (RelationalExpression) expression;
+		this.expressionA = expression;
 	}
 
 	@Override
 	public void setExpressionB(Expression expression) {
 		// TODO Auto-generated method stub
-		this.expressionB = (RelationalExpression) expression;
+		this.expressionB = expression;
 	}
 
 }

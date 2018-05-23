@@ -22,16 +22,17 @@ public class Operators {
 		map.put("*", 12);
 		map.put("^", 13);
 		map.put("->", 16);
-		map.put("||", 15);
-		map.put("&&", 15);
-		map.put("==", 8);
-		map.put("!=", 8);
+		map.put("||", 17);
+		map.put("&&", 17);
+		map.put("==", 17);
+		map.put("!=", 17);
 		map.put(">=", 9);
 		map.put("<=", 9);
-		map.put("<", 9);
-		map.put(">", 9);
+		map.put("<", 17);
+		map.put(">", 17);
 		map.put("!", 14);
-		map.put("=", 17);
+		map.put("=", 18);
+		map.put("=>", 18);
 		map.put("A", 18);
 		map.put("G", 18);
 		OPERATOR_PRECEDENCE = Collections.unmodifiableMap(map);
@@ -46,7 +47,7 @@ public class Operators {
 	}
 
 	public static boolean isBinaryOperator(String input) {
-		return Arrays.asList("+", "-", "*", "/", "->", "=", "==", ">=", "<=", ">", "<", "!=", "&&", "||")
+		return Arrays.asList("+", "-", "*", "/", "->","=>", "=", "==", ">=", "<=", ">", "<", "!=", "&&", "||")
 				.contains(input);
 	}
 
@@ -102,6 +103,8 @@ public class Operators {
 			return "||";
 		case 32:
 			return "!";
+		case 33:
+			return "=>";
 		default:
 			return null;
 		}

@@ -84,6 +84,10 @@ public class Lexer {
 				if (ch == '=') {
 					nextToken = Token.EQ_OP;
 					ch = buffer.getChar();
+				}
+				if (ch == '>') {
+					nextToken = Token.EDGE_OP;
+					ch = buffer.getChar();
 				} else
 					nextToken = Token.ASSIGN_OP;
 				break;

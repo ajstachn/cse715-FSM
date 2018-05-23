@@ -4,6 +4,8 @@ import edu.buffalo.cse715.parsing.expression.arithmetic.AdditionExpression;
 import edu.buffalo.cse715.parsing.expression.arithmetic.DivisionExpression;
 import edu.buffalo.cse715.parsing.expression.arithmetic.MultiplicationExpression;
 import edu.buffalo.cse715.parsing.expression.arithmetic.SubtractionExpression;
+import edu.buffalo.cse715.parsing.expression.edge.EdgeExpression;
+import edu.buffalo.cse715.parsing.expression.edge.VectorExpression;
 import edu.buffalo.cse715.parsing.expression.literal.BooleanValueExpression;
 import edu.buffalo.cse715.parsing.expression.literal.NumberValueExpression;
 import edu.buffalo.cse715.parsing.expression.literal.StringValueExpression;
@@ -12,6 +14,7 @@ import edu.buffalo.cse715.parsing.expression.logical.OrExpression;
 import edu.buffalo.cse715.parsing.expression.relational.EqualityExpression;
 import edu.buffalo.cse715.parsing.expression.relational.GreaterThanExpression;
 import edu.buffalo.cse715.parsing.expression.relational.LessThanExpression;
+import edu.buffalo.cse715.parsing.expression.relational.NotEqualityExpression;
 import edu.buffalo.cse715.parsing.model.Tokenizer;
 
 public class ExpressionFactory {
@@ -38,6 +41,8 @@ public class ExpressionFactory {
 			return new ImplicationExpression();
 		case "==":
 			return new EqualityExpression();
+		case "!=":
+			return new NotEqualityExpression();
 		case "&&":
 			return new AndExpression();
 		case "||":
@@ -52,6 +57,8 @@ public class ExpressionFactory {
 			return new BooleanValueExpression(Boolean.TRUE);
 		case "false":
 			return new BooleanValueExpression(Boolean.FALSE);
+		case "=>":
+			return new EdgeExpression();
 		default:
 			if (input.matches("([+-]?\\d*\\.\\d+)(?![-+0-9\\.])")) {
 				return new NumberValueExpression(Float.valueOf(input));
@@ -59,6 +66,8 @@ public class ExpressionFactory {
 				return new NumberValueExpression(Integer.valueOf(input));
 			} else if (Tokenizer.idList.contains(input)) {
 				return new VariableExpression(input);
+			} else if (input.startsWith("<")) {
+				return new VectorExpression(input);
 			} else {
 				return new StringValueExpression(input);
 			}

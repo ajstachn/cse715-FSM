@@ -10,9 +10,9 @@ import edu.buffalo.cse715.parsing.expression.relational.RelationalExpression;
  */
 public class NotExpression extends LogicalExpression {
 
-	private RelationalExpression relationalExpression;
+	private Expression relationalExpression;
 
-	public NotExpression(RelationalExpression relationalExpression) {
+	public NotExpression(Expression relationalExpression) {
 		super();
 		this.relationalExpression = relationalExpression;
 	}
@@ -22,11 +22,11 @@ public class NotExpression extends LogicalExpression {
 		// TODO Auto-generated constructor stub
 	}
 
-	public RelationalExpression getRelationalExpression() {
+	public Expression getRelationalExpression() {
 		return relationalExpression;
 	}
 
-	public void setRelationalExpression(RelationalExpression relationalExpression) {
+	public void setRelationalExpression(Expression relationalExpression) {
 		this.relationalExpression = relationalExpression;
 	}
 

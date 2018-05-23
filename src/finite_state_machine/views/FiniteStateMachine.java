@@ -335,7 +335,7 @@ public class FiniteStateMachine extends ViewPart {
 		grammarView.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		
 		propertyLabel = new Label(grammarView, SWT.FILL);
-		propertyLabel.setText("Property       ");
+		propertyLabel.setText("Properties    ");
 		
 		propertyText = new Text(grammarView,SWT.V_SCROLL);
 		GridData grid = new GridData();

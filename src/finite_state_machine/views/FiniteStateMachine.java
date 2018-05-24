@@ -464,7 +464,8 @@ public class FiniteStateMachine extends ViewPart {
 					parsedExpresstionList = parser.parse(properties.split(propertyText.getLineDelimiter()));
 					System.out.println("Parsing done Successfully for " +  parsedExpresstionList.size()  + "  Expressions.");
 				}
-					
+				//resultStates = verify(parsedExpressionList)
+				//checkButtonVisualize(resultStates);
 			}
 		});
 		
@@ -544,6 +545,34 @@ public class FiniteStateMachine extends ViewPart {
 				endButtonAction(e);
 			}
 		});
+	}
+	
+	private void checkButtonVisualize(ArrayList<State> resultStates) {
+		sd.keys = new ArrayList<KeyAttribute>(); // Reallocate key attributes
+		sd.states = resultStates;
+		sd.states.get(5).setInvalid(true);
+		sd.paStates = new ArrayList<State>();
+		sd.transitions = new LinkedHashMap<String,Integer>(); // Reset transitions
+		
+		if (kvText.getText().equals(""))
+			return;
+		
+		sd.readKeyAttributes();
+		
+		if(granularity[1].getSelection()) // If method granularity
+			sd.methodConsolidation();
+		
+		sd.abstraction();
+		
+		if (aRun.getSelection()) 
+			sd.generateSVG(sd.exportRun(Integer.MAX_VALUE));
+		else {
+			sd.createTransitions(Integer.MAX_VALUE);
+			if (transitionCount.getSelection())
+				sd.generateSVG(sd.exportToPlantUML(true));
+			else
+				sd.generateSVG(sd.exportToPlantUML(false));
+		}
 	}
 	
 	private void browseButtonAction(SelectionEvent e) {
@@ -975,11 +1004,7 @@ public class FiniteStateMachine extends ViewPart {
 				paState.copy(states.get(s));
 				paState.setInvalid(states.get(s).isInvalid());
 				paStates.add(paState);
-			}
-			
-			//Temporary code for visualization
-			//paStates.get(5).setInvalid(true);
-			//paStates.get(12).setInvalid(true);
+			}			
 			
 			String paStr = paText.getText().trim();
 			if (paStr.equals(""))

@@ -68,6 +68,7 @@ import java.util.TreeSet;
 import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.Iterator;
+import java.awt.TextArea;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
@@ -138,7 +139,7 @@ public class FiniteStateMachine extends ViewPart {
 	private Label propertyLabel; 	
 	private Text propertyText;
 	private Button check;
-		
+	
 	StateDiagram sd;
 	private Label kvSyntax;
 	private Label kvSpace;
@@ -333,7 +334,7 @@ public class FiniteStateMachine extends ViewPart {
 		paSyntax.setText("Comma-separated entries each of which may be =n, <n, >n, #n, \n"
 				+ "[a:b:..:c] or left empty, e.g., =5,,>3,[2:5:8],#true,<4.17,=str");
 		// Predicate abstraction changes end
-		
+
 		// changes for grammar expression begin
 
 		Composite grammarView = new Composite(mainComposite, SWT.NONE);
@@ -454,7 +455,7 @@ public class FiniteStateMachine extends ViewPart {
 		});
 		
 		Parser parser = new ParserImpl();	
-		// changes for property checking begin
+		//changes for property checking begin
 		check.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -466,8 +467,7 @@ public class FiniteStateMachine extends ViewPart {
 					
 			}
 		});
-		// changes for property checking end
-
+		
 		drawButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -973,8 +973,13 @@ public class FiniteStateMachine extends ViewPart {
 			for (int s=0; s<states.size(); s++) {			
 				State paState = new State();
 				paState.copy(states.get(s));
+				paState.setInvalid(states.get(s).isInvalid());
 				paStates.add(paState);
 			}
+			
+			//Temporary code for visualization
+			//paStates.get(5).setInvalid(true);
+			//paStates.get(12).setInvalid(true);
 			
 			String paStr = paText.getText().trim();
 			if (paStr.equals(""))
@@ -1161,12 +1166,16 @@ public class FiniteStateMachine extends ViewPart {
 					transitions.merge(transition, 1, Integer::sum);					
 				}					
 				else {
-					transition = new String("\"" + paStates.get(s).toString() + "\""
-										+ " --> "
-										+ "\"" + paStates.get(s+1).toString() + "\"");
-					transitionGraph.addEdge(paStates.get(s).toString(), paStates.get(s+1).toString());
-					nodes.put(paStates.get(s).toString(),paStates.get(s));
-					nodes.put(paStates.get(s+1).toString(),paStates.get(s+1));
+					if(paStates.get(s+1).isInvalid()) {
+						transition = new String("\"" + paStates.get(s).toString() + "\""
+								+ " -[#red]-> "
+								+ "\"" + paStates.get(s+1).toString() + "\"");
+					} 
+					else {
+						transition = new String("\"" + paStates.get(s).toString() + "\""
+								+ " -[#black]-> "
+								+ "\"" + paStates.get(s+1).toString() + "\"");
+					}
 					transitions.merge(transition, 1, Integer::sum);
 					lastTransition = new String(transition);
 				}
@@ -1176,7 +1185,7 @@ public class FiniteStateMachine extends ViewPart {
 				if (transitions.containsKey(lastTransition)) {
 					int value = transitions.get(lastTransition);
 					transitions.remove(lastTransition);
-					transitions.put(lastTransition + " #red", value);
+					transitions.put(lastTransition + " #yellow", value);
 				}
 			}
 			sd.printTransitions();
@@ -1190,7 +1199,7 @@ public class FiniteStateMachine extends ViewPart {
 		}
 		
 		public void printTransitions() { // Uses lambda
-			transitions.forEach((k,v) -> System.out.println(k.replaceAll("-->", "--> [" + v + "]")));
+			transitions.forEach((k,v) -> System.out.println(k.replaceAll("->", "-> [" + v + "]")));
 		}	
 		
 		public String exportToPlantUML(boolean transitionCount) {
@@ -1198,7 +1207,7 @@ public class FiniteStateMachine extends ViewPart {
 			sb.append("@startuml\n");
 			
 			if (transitionCount)
-				transitions.forEach((k,v) -> sb.append(k.replaceAll("-->", "--> [" + v + "]") + "\n"));
+				transitions.forEach((k,v) -> sb.append(k.replaceAll("->", "-> [" + v + "]") + "\n"));
 			else
 				transitions.forEach((k,v) -> sb.append(k + "\n"));
 			
@@ -1328,7 +1337,7 @@ public class FiniteStateMachine extends ViewPart {
 		}
 	}
 
-		class Transition {
+	class Transition {
 		String current;
 		String next;
 		String method;

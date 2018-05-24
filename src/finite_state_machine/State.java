@@ -7,6 +7,8 @@ public class State {
 	public String method = null;
 	public boolean hashed = false;
 	public int time = 0;
+	boolean invalid = false;
+
 
 	public int getSize() {
 		return keyVar.size();
@@ -28,6 +30,14 @@ public class State {
 		return method;
 	}
 
+	public boolean isInvalid() {
+		return invalid;
+	}
+	
+	public void setInvalid(boolean inval) {
+		invalid = inval;
+	}
+	
 	public void remove(int index) {
 		keyVar.remove(index);
 	}

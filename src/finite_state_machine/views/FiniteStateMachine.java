@@ -990,8 +990,8 @@ public class FiniteStateMachine extends ViewPart {
 			}
 			
 			//Temporary code for visualization
-			paStates.get(5).setInvalid(true);
-			paStates.get(12).setInvalid(true);
+			//paStates.get(5).setInvalid(true);
+			//paStates.get(12).setInvalid(true);
 			
 			String paStr = paText.getText().trim();
 			if (paStr.equals(""))
@@ -1174,14 +1174,14 @@ public class FiniteStateMachine extends ViewPart {
 					transitions.merge(transition, 1, Integer::sum);					
 				}					
 				else {
-					if(paStates.get(s).isInvalid()) {
-						transition = new String("\"" + paStates.get(s).toString() + "\""+"#red"
-								+ " --> "
+					if(paStates.get(s+1).isInvalid()) {
+						transition = new String("\"" + paStates.get(s).toString() + "\""
+								+ " -[#red]-> "
 								+ "\"" + paStates.get(s+1).toString() + "\"");
 					} 
 					else {
 						transition = new String("\"" + paStates.get(s).toString() + "\""
-								+ " --> "
+								+ " -[#black]-> "
 								+ "\"" + paStates.get(s+1).toString() + "\"");
 					}
 					transitions.merge(transition, 1, Integer::sum);
@@ -1201,7 +1201,7 @@ public class FiniteStateMachine extends ViewPart {
 		}
 		
 		public void printTransitions() { // Uses lambda
-			transitions.forEach((k,v) -> System.out.println(k.replaceAll("-->", "--> [" + v + "]")));
+			transitions.forEach((k,v) -> System.out.println(k.replaceAll("->", "-> [" + v + "]")));
 		}	
 		
 		public String exportToPlantUML(boolean transitionCount) {
@@ -1209,7 +1209,7 @@ public class FiniteStateMachine extends ViewPart {
 			sb.append("@startuml\n");
 			
 			if (transitionCount)
-				transitions.forEach((k,v) -> sb.append(k.replaceAll("-->", "--> [" + v + "]") + "\n"));
+				transitions.forEach((k,v) -> sb.append(k.replaceAll("->", "-> [" + v + "]") + "\n"));
 			else
 				transitions.forEach((k,v) -> sb.append(k + "\n"));
 			
